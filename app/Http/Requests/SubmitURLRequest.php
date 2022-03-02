@@ -28,10 +28,16 @@ class SubmitURLRequest extends FormRequest
               if (!str_contains($val, 'autotrader.co.uk/car-search')) {
                 $fail('Please submit an autotrader car search url');
               }
-              if (!$this->get('make', false)) {
+              $qs = parse_url($this->url, PHP_URL_QUERY);
+              if (!$qs) {
+                $fail('No Car Information found in URL');
+              }
+              $params = [];
+              parse_str($qs, $params);
+              if (empty($params['make'])) {
                 $fail('Please specify a make in the search box');
               }
-              if (!$this->get('model', false)) {
+              if (empty($params['model'])) {
                 $fail('Please specify a model in the search box');
               }
             }],
