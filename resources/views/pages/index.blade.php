@@ -1,7 +1,7 @@
 @extends('layout')
 @section('content')
   <main>
-    <div class="xl:h-screen bg-blue-50 overflow-hidden relative"><!-- Start Hero -->
+    <div class="xl:h-screen bg-blue-50 overflow-hidden relative">
       <div class="sm:h-auto xl:h-full container mx-auto px-5 pb-2">
         <div class="xl:h-full grid gap-y-8 sm:gap-y-0 sm:gap-x-10 sm:grid-cols-2 xl:mt-auto content-center">
           <div class="sm:col-span-1 space-y-5 md:space-y-8">
@@ -21,7 +21,7 @@
                   </span>
                 @endif
                 <button class="bg-transparent mx-auto hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                  Graph Results!
+                  See Results!
                 </button>
               </p>
             </form>

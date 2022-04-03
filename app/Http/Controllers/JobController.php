@@ -17,8 +17,10 @@ class JobController extends Controller
 
       $scraper = new AutotraderService($firstPage);
 
-      dd($scraper->get($params['make'], $params['model'], 0));
+      $vehicle = $scraper->get($params['make'], $params['model'], 0);
 
-
+      return view('pages.view')->with([
+        'vehicle' => $vehicle,
+      ]);
     }
 }
