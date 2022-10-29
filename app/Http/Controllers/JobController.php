@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubmitURLRequest;
-use App\Services\Scrapers\AutotraderService;
-use Illuminate\Http\Request;
+use App\Services\Scrapers\AutotraderPageService;
 
 class JobController extends Controller
 {
@@ -15,9 +14,9 @@ class JobController extends Controller
       parse_str($query, $params);
       $firstPage = file_get_contents($url);
 
-      $scraper = new AutotraderService($firstPage);
+      $scraper = new AutotraderPageService($firstPage);
 
-      $vehicle = $scraper->get($params['make'], $params['model'], 0);
+      $vehicle = $scraper->get($params['make'], $params['model'], 1, true);
 
       return view('pages.view')->with([
         'vehicle' => $vehicle,
