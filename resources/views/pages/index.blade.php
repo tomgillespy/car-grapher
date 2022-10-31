@@ -20,8 +20,11 @@
                 <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                     <div class="pr-12">
                         <h1 class="text-white font-semibold text-5xl">
-                            Start your car journey on <a class="text-blue-400" rel="noreferrer" href="http://www.autotrade.co.uk">Autotrader</a>, then here.
+                            Start your car journey on <a class="text-blue-400" rel="noreferrer" href="http://www.autotrader.co.uk">Autotrader</a>, then here.
                         </h1>
+                        <h2 class="text-white font-bold text-4xl mt-5 mb-5 border-red-500 border-2 p-5">
+                            NB: This tool is currently in development. It may not work as expected.
+                        </h2>
                         <p class="mt-4 text-lg text-gray-300">
                             Find your car search criteria on autotrader, then come here for a couple
                             of easy to use tools to make the most of your search!
@@ -29,13 +32,14 @@
                         <div class="relative w-full mb-3 mt-5">
                             <label
                                 class="block uppercase text-white text-xs font-bold mb-2"
-                                for="grid-password"
+                                for="url"
                             >Search URL</label
                             ><input
-                                type="email"
+                                type="text"
                                 class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                                 placeholder="https://www.autotrader.co.uk/....."
                                 style="transition: all 0.15s ease 0s;"
+                                id="url"
                             />
                         </div>
                         <div class="text-center mt-6">
