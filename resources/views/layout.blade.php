@@ -5,6 +5,15 @@
     <link href="{{mix('css/app.css')}}" rel="stylesheet">
     <title>Car Grapher</title>
     <meta name="x-csrf" content="{{csrf_token()}}"/>
+    <meta name="title" content="Car Grapher">
+    <meta name="description" content="Make your car search easier! Graph car results from car websites to get the perfect balance of cost/mileage/age!" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.car-grapher.co.uk/">
+    <meta property="og:title" content="Car Grapher">
+    <meta property="og:description" content="Make your car search easier! Graph car results from car websites to get the perfect balance of cost/mileage/age!">
+    <meta property="og:image" itemprop="image" content="https://www.car-grapher.co.uk/img/index/hero-preview.png">
+
     @livewireStyles
     @stack('styles')
 </head>
