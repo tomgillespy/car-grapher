@@ -19,3 +19,7 @@ Route::get('/', function () {
 });
 
 Route::post('/start', [JobController::class, 'view'])->name('job.view');
+
+Route::get('/run-migrations', function () {
+    return Artisan::call('migrate', ["--force" => true ]);
+});
