@@ -1,52 +1,161 @@
 @extends('layout')
 @section('content')
-  <main>
-    <div class="xl:h-screen bg-blue-50 overflow-hidden relative">
-      <div class="sm:h-auto xl:h-full container mx-auto px-5 pb-2">
-        <div class="xl:h-full grid gap-y-8 sm:gap-y-0 sm:gap-x-10 sm:grid-cols-2 xl:mt-auto content-center">
-          <div class="sm:col-span-1 space-y-5 md:space-y-8">
-            <h1 class="text-4xl sm:text-5xl xl:text-7xl font-semibold">Make your car search easier.</h1>
-            <p class="max-w-sm text-lg md:text-2xl">Paste your autotrader link in to graph mileage/cost results for different cars!</p>
-            <form method="POST" action="{{route('job.view')}}">
-              @method('POST')
-              @csrf
-              <p class="w-full text-lg md:text:2xl">
-                <label class="text-sm font-bold" for="url">
-                  URL:
-                </label>
-                <input name="url" value="{{old('url')}}" class="shadow appearance-none border {{$errors->has('url') ? 'border-red-500' : ''}} rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="url" type="text" placeholder="http://">
-                @if($errors->has('url'))
-                  <span class="w-full border-red-500 text-gray-600 mt-3 mb-3 block">
-                    {{$errors->first('url')}}
-                  </span>
-                @endif
-                <button class="bg-transparent mx-auto hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                  See Results!
-                </button>
-              </p>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div><!-- End Hero -->
 
-    <section class="container mx-auto px-5 py-12 lg:py-28"><!-- Start About App -->
-      <div class="grid gap-4 md:gap-10 lg:grid-cols-3">
-        <div class="">
-          <h2 class="text-2xl md:text-3xl font-semibold">About Our App</h2>
+<main>
+    <div
+        class="relative pt-16 pb-32 flex content-center items-center justify-center"
+        style="min-height: 75vh;"
+    >
+        <div
+            class="absolute top-0 w-full h-full bg-center bg-cover"
+            style='background-image: url("/img/index/hero.png");'
+        >
+          <span
+              id="blackOverlay"
+              class="w-full h-full absolute opacity-50 bg-black"
+          ></span>
         </div>
-        <div class="lg:col-span-2">
-          <p class="text-lg md:text-2xl">
-            Inspired by a post on <a target="_blank" rel="nofollow" href="https://reddit.com/r/carTalkUK">/r/carTalkUK</a>, this tool graphs certain information about cars from autotrader.
-          </p>
+        <div class="container relative mx-auto">
+            <div class="items-center flex flex-wrap">
+                <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+                    <div class="pr-12">
+                        <h1 class="text-white font-semibold text-5xl">
+                            Start your car journey on <a class="text-blue-400" rel="noreferrer" href="http://www.autotrade.co.uk">Autotrader</a>, then here.
+                        </h1>
+                        <p class="mt-4 text-lg text-gray-300">
+                            Find your car search criteria on autotrader, then come here for a couple
+                            of easy to use tools to make the most of your search!
+                        </p>
+                        <div class="relative w-full mb-3 mt-5">
+                            <label
+                                class="block uppercase text-white text-xs font-bold mb-2"
+                                for="grid-password"
+                            >Search URL</label
+                            ><input
+                                type="email"
+                                class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                                placeholder="https://www.autotrader.co.uk/....."
+                                style="transition: all 0.15s ease 0s;"
+                            />
+                        </div>
+                        <div class="text-center mt-6">
+                            <button
+                                class="bg-blue-800 hover:bg-blue-500 text-white active:bg-blue-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
+                                type="button"
+                                style="transition: all 0.15s ease 0s;"
+                            >
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </section><!-- End About App -->
-
-    <div class="container mx-auto sm:px-4">
-      <hr class="bg-gray-400">
+        <div
+            class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
+            style="height: 70px;"
+        >
+            <svg
+                class="absolute bottom-0 overflow-hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none"
+                version="1.1"
+                viewBox="0 0 2560 100"
+                x="0"
+                y="0"
+            >
+                <polygon
+                    class="text-gray-300 fill-current"
+                    points="2560 0 2560 100 0 100"
+                ></polygon>
+            </svg>
+        </div>
     </div>
 
-    @include('footer')
-  </main>
+    <section class="relative py-20">
+        <div
+            class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
+            style="height: 80px;"
+        >
+            <svg
+                class="absolute bottom-0 overflow-hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none"
+                version="1.1"
+                viewBox="0 0 2560 100"
+                x="0"
+                y="0"
+            >
+                <polygon
+                    class="text-white fill-current"
+                    points="2560 0 2560 100 0 100"
+                ></polygon>
+            </svg>
+        </div>
+        <div class="container mx-auto px-4">
+            <div class="items-center flex flex-wrap">
+                <div class="w-full md:w-4/12 ml-auto mr-auto px-4">
+                    <img
+                        alt="..."
+                        class="max-w-full rounded-lg shadow-lg"
+                        src="/img/index/cars.jpg"
+                    />
+                </div>
+                <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
+                    <div class="md:pr-12">
+                        <h3 class="text-3xl font-semibold">About this tool</h3>
+                        <p class="mt-4 text-lg leading-relaxed text-gray-600">
+                            Inspired by a post on <a class="text-blue-400" href="http://reddit.com/r/carTalkUK">/r/carTalkUK</a>,
+                            this tool attempts to give you a little insight into how some cars compare on autotrader, without having
+                            to use spreadsheets.
+                        </p>
+                        <ul class="list-none mt-6">
+                            <li class="py-2">
+                                <div class="flex items-center">
+                                    <div>
+                        <span
+                            class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-gray-600 bg-black mr-3"
+                        ><i class="fas fa-fingerprint"></i
+                            ></span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-gray-600">
+                                            Enter Your Search URL
+                                        </h4>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="py-2">
+                                <div class="flex items-center">
+                                    <div>
+                        <span
+                            class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-gray-600 bg-black mr-3"
+                        ><i class="fab fa-html5"></i
+                            ></span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-gray-600">Wait for the tool to find all the cars with that search - this can take a few mins!</h4>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="py-2">
+                                <div class="flex items-center">
+                                    <div>
+                        <span
+                            class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-gray-600 bg-black mr-3"
+                        ><i class="far fa-paper-plane"></i
+                            ></span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-gray-600">View the results and organise/download them as you wish!</h4>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
 @endsection
