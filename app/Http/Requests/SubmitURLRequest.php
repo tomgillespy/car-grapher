@@ -43,4 +43,11 @@ class SubmitURLRequest extends FormRequest
             }],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'url.required' => 'Please submit a URL',
+        ];
+    }
 }

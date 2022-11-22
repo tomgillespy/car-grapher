@@ -19,7 +19,12 @@ Route::get('/', function () {
 });
 
 Route::post('/start', [JobController::class, 'view'])->name('job.view');
+Route::post('/scrape', [JobController::class, 'scrape'])->name('job.scrape');
 
+
+//Route::get('/layout', function() {
+//    return view('pages.scrape');
+//});
 Route::get('/run-migrations', function () {
     return Artisan::call('migrate', ["--force" => true ]);
 });

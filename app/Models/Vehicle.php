@@ -40,4 +40,14 @@ class Vehicle extends Model
     //Mutators
 
     //Functions
+
+    public static function getExampleVehicle($make, $model): ?Vehicle
+    {
+        $make = VehicleMake::where('make', $make)->first();
+        $model = VehicleModel::where('model', $model)->first();
+        if (!$make || !$model) {
+            return null;
+        }
+        return self::where('make_id', $make->id)->where('model_id', $model->id)->inRandomOrder()->first();
+    }
 }
