@@ -34,13 +34,17 @@ class AutotraderPageService implements ScraperContract
 
     protected function getVehicleInformation($make, $model, $vehicleInfo): Vehicle
     {
-      $vehicle = new Vehicle();
-      $vehicle->make_id = VehicleMake::firstOrCreate(['make' => $make])->id;
-      $vehicle->model_id = VehicleModel::firstOrCreate(['model' => $model])->id;
-      $vehicle->service_id = $vehicleInfo->attr('data-advert-id');
-      $vehicle->image_url = $vehicleInfo->filter('img.product-card-image__main-image')->attr('src');
-      $vehicle->summary = $vehicleInfo->filter('p.product-card-details__subtitle')->text(null);
-      $vehicle->headline = $vehicleInfo->filter('p.product-card-details__attention-grabber')->text(null);
+        try {
+            $vehicle = new Vehicle();
+            $vehicle->make_id = VehicleMake::firstOrCreate(['make' => $make])->id;
+            $vehicle->model_id = VehicleModel::firstOrCreate(['model' => $model])->id;
+            $vehicle->service_id = $vehicleInfo->attr('data-advert-id');
+            $vehicle->image_url = $vehicleInfo->filter('img.product-card-image__main-image')->attr('src');
+            $vehicle->summary = $vehicleInfo->filter('p.product-card-details__subtitle')->text('');
+            $vehicle->headline = $vehicleInfo->filter('p.product-card-details__attention-grabber')->text('');
+        } catch (\Exception $e) {
+            dd($vehicleInfo->html());
+        }
 
       return $vehicle;
     }
@@ -48,7 +52,7 @@ class AutotraderPageService implements ScraperContract
     protected function getVehiclePrice($vehicleInfo): ?float
     {
         try {
-            $rawPrice = $vehicleInfo->filter('div.product-card-pricing__price > span')->text(null);
+            $rawPrice = $vehicleInfo->filter('div.product-card-pricing__price > span')->text(0);
             return preg_replace('/[^\d]/', '', $rawPrice);
         } catch (InvalidArgumentException $e) {
             return null;
@@ -78,10 +82,14 @@ class AutotraderPageService implements ScraperContract
         }
     }
 
-    public function getAll(string $make, string $model): Collection
+    public function getAll(string $make, string $model, bool $save = false): Collection
     {
-        // TODO: Implement getAll() method.
-        return collect();
+        $collection = collect();
+        for($i = 0; $i < $this->count(); $i++) {
+            $vehicle = $this->get($make, $model, $i, $save);
+            $collection->push($vehicle);
+        }
+        return $collection;
     }
 
     public function count()

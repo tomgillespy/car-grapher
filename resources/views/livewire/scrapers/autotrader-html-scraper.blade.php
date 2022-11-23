@@ -43,7 +43,7 @@
                                 @if($exampleVehicle)
                                     <img
                                         alt="{{$exampleVehicle->vehicleMake->make}} {{$exampleVehicle->vehicleModel->model}} {{$exampleVehicle->year}}"
-                                        src="{{$exampleVehicle->image}}"
+                                        src="{{$exampleVehicle->image_url}}"
                                         class="shadow-xl rounded-full h-auto align-middle bg-white border-none absolute -m-16 -ml-20 lg:-ml-16"
                                         style="max-width: 150px;"
                                     />
@@ -107,15 +107,37 @@
                             {{$params['model']}}
                         </div>
                     </div>
-                    <div class="mt-10 py-10 border-t border-gray-300 text-center">
-                        <div class="flex flex-wrap justify-center">
-                            <div class="w-full lg:w-9/12 px-4">
-                                <p class="mb-4 text-lg leading-relaxed text-gray-800">
-                                    Please wait while we fetch the vehicles from autotrader. This may take a few minutes.
-                                </p>
+                    @if(!$isFinished && !$isCancelled)
+                        <div class="mt-10 py-10 border-t border-gray-300 text-center" wire:poll.5000ms="getNextPage">
+                            <div class="flex flex-wrap justify-center">
+                                <div class="w-full lg:w-9/12 px-4">
+                                    <p class="mb-4 text-lg leading-relaxed text-gray-800">
+                                        Please wait while we fetch the vehicles from autotrader. This may take a few minutes.
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        @elseif($isCancelled)
+                        <div class="mt-10 py-10 border-t border-gray-300 text-center">
+                            <div class="flex flex-wrap justify-center">
+                                <div class="w-full lg:w-9/12 px-4">
+                                    <p class="mb-4 text-lg leading-relaxed text-gray-800">
+                                        Scrape Cancelled. <a href="#">View Results</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        @elseif($isFinished)
+                        <div class="mt-10 py-10 border-t border-gray-300 text-center">
+                            <div class="flex flex-wrap justify-center">
+                                <div class="w-full lg:w-9/12 px-4">
+                                    <p class="mb-4 text-lg leading-relaxed text-gray-800">
+                                        Scrape Finished. <a href="#">View Results</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -125,9 +147,7 @@
     <script>
         window.addEventListener('livewire:load', function () {
             window.livewire.on('getNextPage', (pageToLoad) => {
-                console.log('getNextPage');
                 corsGet(pageToLoad).then((response) => {
-                    console.log(response);
                     window.livewire.emit('postNextPage', response);
                 });
             });

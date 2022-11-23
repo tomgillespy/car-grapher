@@ -3,7 +3,7 @@
 namespace App\Contracts;
 
 interface ScraperContract {
-  public function getAll(string $make, string $model);
+  public function getAll(string $make, string $model, bool $save = false);
 
   public function count();
 

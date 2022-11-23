@@ -48,6 +48,6 @@ class Vehicle extends Model
         if (!$make || !$model) {
             return null;
         }
-        return self::where('make_id', $make->id)->where('model_id', $model->id)->inRandomOrder()->first();
+        return self::where('make_id', $make->id)->where('model_id', $model->id)->where('image_url', 'LIKE', 'https://%')->inRandomOrder()->first();
     }
 }
