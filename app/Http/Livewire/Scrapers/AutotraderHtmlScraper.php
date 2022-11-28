@@ -79,6 +79,7 @@ class AutotraderHtmlScraper extends Component
         }
         if ($this->page >= config('car-grapher.default_crawl_pages')) {
             $this->isFinished = true;
+            return redirect()->to(route('results.show', ['result' => $this->scrape]));
         }
     }
 
