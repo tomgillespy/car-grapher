@@ -30,11 +30,26 @@ class Vehicle extends Model
         return $this->hasMany(VehiclePrice::class);
     }
 
+    public function scrapes(): HasMany
+    {
+        return $this->hasMany(Scrape::class);
+    }
+
     //Accessors
 
     public function getCurrentPriceAttribute()
     {
         return $this->prices()->orderBy('created_at', 'DESC')->take(1)->first()?->price ?? null;
+    }
+
+    public function getMakeNameAttribute()
+    {
+        return $this->vehicleMake->make;
+    }
+
+    public function getModelNameAttribute()
+    {
+        return $this->vehicleModel->model;
     }
 
     //Mutators

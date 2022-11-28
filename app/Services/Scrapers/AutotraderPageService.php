@@ -59,7 +59,7 @@ class AutotraderPageService implements ScraperContract
         }
     }
 
-    protected function saveVehicle(Vehicle $vehicle, ?float $price): void
+    protected function saveVehicle(Vehicle $vehicle, ?float $price): Vehicle
     {
         $existingVehicle = Vehicle::where('service_id', $vehicle->service_id)->first();
         if (!$existingVehicle) {
@@ -80,6 +80,8 @@ class AutotraderPageService implements ScraperContract
                 ]);
             }
         }
+        $existingVehicle->refresh();
+        return $existingVehicle;
     }
 
     public function getAll(string $make, string $model, bool $save = false): Collection
@@ -92,7 +94,7 @@ class AutotraderPageService implements ScraperContract
         return $collection;
     }
 
-    public function count()
+    public function count(): int
     {
         $content = $this->getContentSection();
         return $content->filter('li.search-page__result')->count();
@@ -108,7 +110,7 @@ class AutotraderPageService implements ScraperContract
         $vehicle = $this->getVehicleInformation($make, $model, $vehicleInfo);
         $price = $this->getVehiclePrice($vehicleInfo);
         if ($save) {
-            $this->saveVehicle($vehicle, $price);
+            return $this->saveVehicle($vehicle, $price);
         }
         return $vehicle;
     }

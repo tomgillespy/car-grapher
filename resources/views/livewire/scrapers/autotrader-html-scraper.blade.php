@@ -32,7 +32,7 @@
     <section class="relative py-16 bg-gray-300">
         <div class="container mx-auto px-4">
             <div
-                class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64"
+                class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64 min-h-screen"
             >
                 <div class="px-6">
                     <div class="flex flex-wrap justify-center">
@@ -122,7 +122,7 @@
                             <div class="flex flex-wrap justify-center">
                                 <div class="w-full lg:w-9/12 px-4">
                                     <p class="mb-4 text-lg leading-relaxed text-gray-800">
-                                        Scrape Cancelled. <a href="#">View Results</a>
+                                        Scrape Finished. <a href="{{route('results.show', ['result' => $scrape])}}">View Results</a>
                                     </p>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@
                             <div class="flex flex-wrap justify-center">
                                 <div class="w-full lg:w-9/12 px-4">
                                     <p class="mb-4 text-lg leading-relaxed text-gray-800">
-                                        Scrape Finished. <a href="#">View Results</a>
+                                        Scrape Finished. <a href="{{route('results.show', ['result' => $scrape])}}">View Results</a>
                                     </p>
                                 </div>
                             </div>

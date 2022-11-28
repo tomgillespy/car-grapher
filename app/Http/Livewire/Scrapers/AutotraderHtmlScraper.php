@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Scrapers;
 
+use App\Models\Scrape;
 use App\Models\Vehicle;
 use App\Services\Scrapers\AutotraderPageService;
 use Livewire\Component;
@@ -14,6 +15,7 @@ class AutotraderHtmlScraper extends Component
     public $page;
     public $vehicleCount;
     public $exampleVehicle;
+    public $scrape;
 
     protected $listeners = ['postNextPage'];
 
@@ -38,10 +40,14 @@ class AutotraderHtmlScraper extends Component
         $this->vehicleCount = 0;
         $params = $this->getParams([]);
         $this->exampleVehicle = Vehicle::getExampleVehicle($params['make'], $params['model']);
+        $this->scrape = Scrape::create();
     }
 
     public function getNextPage()
     {
+        if ($this->isFinished || $this->isCancelled) {
+            return;
+        }
         $this->page++;
         $params = $this->getParams([]);
         $params['page'] = $this->page;
@@ -51,6 +57,9 @@ class AutotraderHtmlScraper extends Component
 
     public function postNextPage($response)
     {
+        if ($this->isFinished || $this->isCancelled) {
+            return;
+        }
         $service = new AutotraderPageService($response);
         $this->vehicleCount += $service->count();
         if ($service->count() == 0) {
@@ -61,6 +70,12 @@ class AutotraderHtmlScraper extends Component
         $vehicles = $service->getAll($params['make'], $params['model'], true);
         if (!$this->exampleVehicle) {
             $this->exampleVehicle = $vehicles[0];
+        }
+        foreach($vehicles as $vehicle) {
+            if ($vehicle->id) {
+                $this->scrape->vehicles()->attach($vehicle);
+            }
+            $this->scrape->touch();
         }
         if ($this->page >= config('car-grapher.default_crawl_pages')) {
             $this->isFinished = true;
