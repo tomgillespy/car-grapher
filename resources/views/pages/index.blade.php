@@ -7,7 +7,7 @@
             style="min-height: 75vh;"
         >
             <div
-                class="absolute top-0 w-full h-full bg-center bg-cover"
+                class="absolute top-0 w-full h-full bg-top bg-cover"
                 style='background-image: url("/img/index/hero.png");'
             >
           <span
