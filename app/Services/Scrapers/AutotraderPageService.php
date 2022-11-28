@@ -80,8 +80,8 @@ class AutotraderPageService implements ScraperContract
                 ]);
             }
         }
-        $existingVehicle->refresh();
-        return $existingVehicle;
+        $vehicle->refresh();
+        return $vehicle;
     }
 
     public function getAll(string $make, string $model, bool $save = false): Collection
