@@ -48,6 +48,7 @@ class ScrapeController extends Controller
 
     public function export(Scrape $result)
     {
-        return Excel::download(new VehicleExport($result->vehicles), 'vehicles.xlsx');
+        $vehicleId = $result->vehicles->first()->make_name.'_'.$result->vehicles->first()->model_name.date('Y-m-d');
+        return Excel::download(new VehicleExport($result->vehicles), "vehicles_$vehicleId.xlsx");
     }
 }
