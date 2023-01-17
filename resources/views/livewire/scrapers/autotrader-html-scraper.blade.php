@@ -108,8 +108,7 @@
                         </div>
                     </div>
                     @if(!$isFinished && !$isCancelled)
-{{--                        <div class="mt-10 py-10 border-t border-gray-300 text-center" wire:poll.10000ms="getNextPage">--}}
-                        <div class="mt-10 py-10 border-t border-gray-300 text-center">
+                        <div class="mt-10 py-10 border-t border-gray-300 text-center" wire:poll.5000ms="getNextPage">
                             <div class="flex flex-wrap justify-center">
                                 <div class="w-full lg:w-9/12 px-4">
                                     <p class="mb-4 text-lg leading-relaxed text-gray-800">
