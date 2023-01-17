@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Scrapers;
 use App\Models\Scrape;
 use App\Models\Vehicle;
 use App\Services\Scrapers\AutotraderPageService;
+use GuzzleHttp\Client;
 use Livewire\Component;
 
 class AutotraderHtmlScraper extends Component
@@ -51,8 +52,13 @@ class AutotraderHtmlScraper extends Component
         $this->page++;
         $params = $this->getParams([]);
         $params['page'] = $this->page;
-        $url = 'https://www.autotrader.co.uk/car-search?' . http_build_query($params);
-        $this->emit('getNextPage', $url);
+        $url = config('car-grapher.scrapers.autotrader.url') . '?' . http_build_query($params);
+
+        $client = new Client();
+        $response = $client->request('GET', $url);
+        $this->postNextPage($response->getBody());
+
+//        $this->emit('getNextPage', $url);
     }
 
     public function postNextPage($response)
