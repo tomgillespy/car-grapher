@@ -28,6 +28,10 @@ class VehicleExport implements FromCollection, WithHeadings
                 'Headline' => $vehicle->headline,
                 'Summary' => $vehicle->summary,
                 'Year' => $vehicle->year,
+                'Mileage' => $vehicle->mileage,
+                'Fuel' => $vehicle->fuel_type,
+                'Transmission' => $vehicle->transmission,
+                'Power' => $vehicle->power,
                 'Price' => $vehicle->current_price,
             ]);
         }));

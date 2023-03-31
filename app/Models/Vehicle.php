@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vehicle extends Model
 {
-    use HasFactory;
-
     protected $guarded = ['id'];
 
     //Relations
