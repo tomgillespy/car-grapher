@@ -108,7 +108,11 @@
                         </div>
                     </div>
                     @if(!$isFinished && !$isCancelled)
-{{--                        <div class="mt-10 py-10 border-t border-gray-300 text-center" wire:poll.5000ms="getNextPage">--}}
+                        @if(config('app.debug'))
+                        <div class="mt-10 py-10 border-t border-gray-300 text-center">
+                        @else
+                        <div class="mt-10 py-10 border-t border-gray-300 text-center" wire:poll.2000ms="getNextPage">
+                        @endif
                         <div class="mt-10 py-10 border-t border-gray-300 text-center">
                             <div class="flex flex-wrap justify-center">
                                 <div class="w-full lg:w-9/12 px-4">
