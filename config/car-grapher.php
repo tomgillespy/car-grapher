@@ -6,5 +6,5 @@ return [
         'autotrader' => [
             'url' => 'https://ezbhavg37yo2xkixeayqwb3af40gslyz.lambda-url.eu-west-2.on.aws/',
         ]
-    ]
+    ],
 ];

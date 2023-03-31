@@ -3,6 +3,8 @@
 namespace App\Services\Scrapers;
 
 use App\Contracts\ScraperContract;
+use App\Enums\FuelTypeEnum;
+use App\Enums\TransmissionEnum;
 use App\Models\Vehicle;
 use App\Models\VehicleMake;
 use App\Models\VehicleModel;
@@ -32,6 +34,28 @@ class AutotraderPageService implements ScraperContract
       return $content->filter('li.search-page__result');
     }
 
+    private function processSpecs(Vehicle &$vehicle, $specArray)
+    {
+        foreach($specArray as $specItem) {
+            $text = $specItem->textContent;
+            $matches = [];
+            if (preg_match('/([\d]{4}) \([\d]{2} reg\)/m', $text, $matches)) {
+                $vehicle->year = $matches[1];
+            } elseif (preg_match('/([\d,]*) miles/m', $text, $matches)) {
+                $vehicle->mileage = str_replace(',', '', $matches[1]);
+            } elseif (preg_match('/(\d{1,2}\.\d)L/', $text, $matches)) {
+                $vehicle->capacity = $matches[1];
+            } elseif (preg_match('/(\d{1,4})BHP/', $text, $matches)) {
+                $vehicle->power = $matches[1];
+            } elseif (in_array($text, FuelTypeEnum::toArray())) {
+                $vehicle->fuel_type = FuelTypeEnum::$text();
+            } elseif (in_array($text, TransmissionEnum::toArray())) {
+                $vehicle->transmission = TransmissionEnum::$text();
+            }
+
+        }
+    }
+
     protected function getVehicleInformation($make, $model, $vehicleInfo): Vehicle
     {
         try {
@@ -42,7 +66,11 @@ class AutotraderPageService implements ScraperContract
             $vehicle->image_url = $vehicleInfo->filter('img.product-card-image__main-image')->attr('src');
             $vehicle->summary = $vehicleInfo->filter('p.product-card-details__subtitle')->text('');
             $vehicle->headline = $vehicleInfo->filter('p.product-card-details__attention-grabber')->text('');
+
+            $this->processSpecs($vehicle, $vehicleInfo->filter('.product-card-details > ul > li'));
+
         } catch (\Exception $e) {
+            dump($e);
             dd($vehicleInfo->html());
         }
 
