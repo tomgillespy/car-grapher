@@ -89,13 +89,11 @@
                         </div>
                         <div class="mt-10 py-10 border-t border-gray-300 text-center">
                             <div class="flex flex-wrap justify-center">
-                                <div class="w-full lg:w-9/12 px-4">
+                                <div class="w-full lg:w-9/12 px-4 flex flex-wrap flex-row">
                                     @foreach($result->vehicles as $vehicle)
-                                        <x-image-card class="flex-1 flex-wrap w-1/2 min-w-50% m-4" :image="$vehicle->image_url" :title="$vehicle->summary" :subtitle="$vehicle->price" :sub-text="$vehicle->headline">
-
+                                        <x-image-card class="box-border flex-none flex-wrap w-1/2 p-2" :image="$vehicle->image_url" :title="$vehicle->summary" :subtitle="$vehicle->price" :sub-text="$vehicle->headline" :vehicle="$vehicle">
                                         </x-image-card>
                                     @endforeach
-
                                 </div>
                             </div>
                         </div>

@@ -50,6 +50,11 @@ class Vehicle extends Model
         return $this->vehicleModel->model;
     }
 
+    public function getServiceLinkAttribute(): string
+    {
+        return 'https://www.autotrader.co.uk/car-details/'.$this->service_id;
+    }
+
     //Mutators
 
     //Functions

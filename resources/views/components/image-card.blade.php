@@ -9,6 +9,9 @@
             @if(isset($subText))
                 <p class="text-gray-600 text-xs">{{$subText}}</p>
             @endif
+            <a href="{{$vehicle->serviceLink}}" class="text-blue-500 text-sm font-semibold mt-2" rel="noreferrer" target="_blank">
+                View Vehicle
+            </a>
         </div>
     </div>
 </div>
