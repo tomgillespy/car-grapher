@@ -51,4 +51,30 @@ class ScrapeController extends Controller
         $vehicleId = $result->vehicles->first()->make_name.'_'.$result->vehicles->first()->model_name.date('Y-m-d');
         return Excel::download(new VehicleExport($result->vehicles), "vehicles_$vehicleId.xlsx");
     }
+
+    public function graph(Scrape $result, $type)
+    {
+        $chartData = [];
+        foreach($result->vehicles as $vehicle) {
+            $chartData[] = [
+                'x' => $vehicle->mileage == 0 ? 1 : $vehicle->mileage,
+                'y' => $vehicle->current_price,
+                'vehicle' => $vehicle->toArray(),
+            ];
+        }
+
+        return view('pages.graph.mileage_vs_price')->with([
+            'result' => $result,
+            'type' => $type,
+            'data' => [
+                'datasets' => [
+                    [
+                        'label' => 'Mileage vs Price',
+                        'data' => $chartData,
+                        'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    ]
+                ],
+            ],
+        ]);
+    }
 }

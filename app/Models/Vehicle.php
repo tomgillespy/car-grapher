@@ -11,6 +11,13 @@ class Vehicle extends Model
 {
     protected $guarded = ['id'];
 
+    protected $appends = [
+        'current_price',
+        'make_name',
+        'model_name',
+        'service_link',
+    ];
+
     //Relations
 
     public function vehicleMake(): BelongsTo

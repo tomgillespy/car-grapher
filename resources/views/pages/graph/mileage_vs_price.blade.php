@@ -42,12 +42,12 @@
                                 class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center"
                             >
                                 <div class="relative">
-                                        <img
-                                            alt="{{$result->vehicles[0]->make_name}} {{$result->vehicles[0]->model_name}} {{$result->vehicles[0]->year}}"
-                                            src="{{$result->vehicles[0]->image_url}}"
-                                            class="shadow-xl rounded-full h-auto align-middle bg-white border-none absolute -m-16 -ml-20 lg:-ml-16"
-                                            style="max-width: 150px;"
-                                        />
+                                    <img
+                                        alt="{{$result->vehicles[0]->make_name}} {{$result->vehicles[0]->model_name}} {{$result->vehicles[0]->year}}"
+                                        src="{{$result->vehicles[0]->image_url}}"
+                                        class="shadow-xl rounded-full h-auto align-middle bg-white border-none absolute -m-16 -ml-20 lg:-ml-16"
+                                        style="max-width: 150px;"
+                                    />
                                 </div>
                             </div>
                             <div
@@ -58,17 +58,9 @@
                                         class="bg-blue-400 hover:bg-blue-700 active:bg-blue-700 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
                                         type="button"
                                         style="transition: all 0.15s ease 0s;"
-                                        href="{{route('results.export', ['result' => $result])}}"
+                                        href="{{route('results.show', ['result' => $result])}}"
                                     >
-                                        Download All Results
-                                    </a>
-                                    <a
-                                        class="bg-blue-400 hover:bg-blue-700 active:bg-blue-700 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
-                                        type="button"
-                                        style="transition: all 0.15s ease 0s;"
-                                        href="{{route('results.graph', ['result' => $result, 'type' => '_price_vs_mileage'])}}"
-                                    >
-                                        Mileage Vs Price
+                                        Back to Main Results
                                     </a>
                                 </div>
                             </div>
@@ -97,12 +89,7 @@
                         </div>
                         <div class="mt-10 py-10 border-t border-gray-300 text-center">
                             <div class="flex flex-wrap justify-center">
-                                <div class="w-full lg:w-9/12 px-4 flex flex-wrap flex-row">
-                                    @foreach($result->vehicles as $vehicle)
-                                        <x-image-card class="box-border flex-none flex-wrap w-1/2 p-2" :image="$vehicle->image_url" :title="$vehicle->summary" :subtitle="$vehicle->price" :sub-text="$vehicle->headline" :vehicle="$vehicle">
-                                        </x-image-card>
-                                    @endforeach
-                                </div>
+                                <canvas id="mileageVsPriceChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -111,3 +98,44 @@
         </section>
     </main>
 @endsection
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript">
+        const chx = document.getElementById('mileageVsPriceChart');
+
+        new Chart(chx, {
+            type: 'scatter',
+            data: {!! json_encode($data) !!},
+            options: {
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        type: 'linear',
+                        position: 'bottom',
+                    },
+                    y: {
+                        beginAtZero: true,
+                        type: 'linear',
+                        position: 'bottom',
+                    }
+                },
+                onClick: (event, elements, chart) => {
+                    if (elements.length > 0) {
+                        const data = elements[0].element.$context.raw;
+                        window.open(data.vehicle.service_link, '_blank');
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const data = context.raw.vehicle;
+                                return `Price: £${data.current_price}, ${data.mileage} miles, ${data.year} ${data.make_name} ${data.model_name}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+@endpush
